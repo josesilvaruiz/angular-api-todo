@@ -1,0 +1,45 @@
+<div class="card border mb-3">
+    <div class="card-header">
+        <h2>TODOs</h2>
+    </div>
+    <div class="card-body">
+        <h3 class="card-title">Listado de TODOs</h3>
+        <div *ngIf="todos?.length==0" class="alert alert-info">
+            No hay registros en la base de datos
+        </div>
+        <!-- Search form -->
+        <form class="form-inline d-flex justify-content-left md-form form-sm mt-1" style="padding-bottom: 2%;">
+            <input class="form-control form-control-sm ml-3 w-75" type="number" placeholder="Search"
+                [(ngModel)]="search" name="search" aria-label="Search">
+            <a [routerLink]="['/todos/search', search , 'page',0]" style="padding-left: 1%;"><i
+                    class="fa fa-search"></i></a>
+        </form>
+        <table class="table table-bordered" *ngIf="todos?.length>0">
+            <thead>
+                <tr>
+                    <th>UserId</th>
+                    <th>Title</th>
+                    <th>Completed?</th>
+                    <th>editar</th>
+                    <th>borrar</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let todo of todos">
+                <tr>
+                    <td>{{ todo.user.id }}</td>
+                    <td>{{ todo.title }}</td>
+                    <td>{{ todo.completed }}</td>
+                    <td>
+                        <button type="button" name="editar" [routerLink]="['/form', todo.id]"
+                            class="btn btn-primary">editar</button>
+                    </td>
+                    <td>
+                        <button type="button" name="borrar" role="button" (click)='delete(todo)'
+                            class="btn btn-danger">borrar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-paginator *ngIf="paginador" [paginador]="paginador"></app-paginator>
+    </div>
+</div>

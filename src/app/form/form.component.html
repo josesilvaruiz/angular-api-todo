@@ -1,0 +1,48 @@
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+    <li *ngFor="let err of errores">
+        {{ err }}
+    </li>
+</ul>
+<form #todoForm="ngForm">
+  <div class="form-group">
+    <label for="inputTitle">Title</label>
+    <input type="text" class="form-control" id="title" [(ngModel)]="todo.title" name="title" #title="ngModel">
+    <div class="alert alert-danger" *ngIf="title.invalid && (title.dirty || title.touched)">
+      <div *ngIf="title.errors.required">
+          Title is empty
+      </div>
+      <div *ngIf="title.errors.maxlength">
+        The maximum characters are 200
+      </div>
+  </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputCompleted">Completed</label>
+      <select id="inputCompleted" class="form-control" [(ngModel)]="todo.completed" name="completed"
+        #completed="ngModel">
+        <option selected [ngValue]="false">Not completed</option>
+        <option [ngValue]="true">Completed</option>
+      </select>
+      <div class="alert alert-danger" *ngIf="completed.invalid && (completed.dirty || completed.touched)">
+        <div *ngIf="completed.errors.required">
+          Completed is empty
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputUserId">UserId</label>
+      <input type="number" class="form-control" id="user" [(ngModel)]="todo.user.id" name="user" #id="ngModel" required>
+      
+    </div>
+  </div>
+
+  <div class="form-group row col-sm-6">
+    <button class="btn btn-primary" *ngIf="!todo.id else elseBlock" role="button" (click)='create()'>New Task</button>
+    <ng-template #elseBlock>
+      <button class="btn btn-primary" role="button" (click)='update()'
+        >Update</button>
+    </ng-template>
+  </div>
+
+</form>
